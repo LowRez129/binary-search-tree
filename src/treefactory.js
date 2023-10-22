@@ -13,6 +13,18 @@ function buildTree (array, start, end) {
 
 export default function treeFactory (array, start, end) {
     const root = buildTree(array, start, end);
+    const prettyPrint = (node, prefix = "", isLeft = true) => {
+        if (node === null) {
+          return;
+        }
+        if (node.getRight() !== null) {
+          prettyPrint(node.getRight(), `${prefix}${isLeft ? "│   " : "    "}`, false);
+        }
+        console.log(`${prefix}${isLeft ? "└── " : "┌── "}${node.value}`);
+        if (node.getLeft() !== null) {
+          prettyPrint(node.getLeft(), `${prefix}${isLeft ? "    " : "│   "}`, true);
+        }
+    };
 
-    return {root};
+    return {root, prettyPrint};
 }
