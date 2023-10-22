@@ -26,5 +26,29 @@ export default function treeFactory (array, start, end) {
         }
     };
 
-    return {root, prettyPrint};
+    const insertNode = (value) => {
+        const NEW_NODE = nodeFactory(value);
+        let current_node = root;
+
+        while (true) {
+          if (NEW_NODE.value == current_node.value) {
+            console.log("This node exist!");
+            break;
+          }
+          if (NEW_NODE.value < current_node.value) {
+            if (null == current_node.getLeft()) { 
+              current_node.setLeft(NEW_NODE);
+              break; }
+            else { current_node = current_node.getLeft(); }
+          }
+          else {
+            if (null == current_node.getRight()) { 
+              current_node.setRight(NEW_NODE);
+              break; }
+            else { current_node = current_node.getRight(); }
+          }
+        }
+    }
+
+    return {root, prettyPrint, insertNode};
 }

@@ -1,6 +1,6 @@
 export default function nodeFactory (value) {
-    let left;
-    let right;
+    let left = null;
+    let right = null;
 
     function setLeft (node){ left = node; }
     function setRight (node) { right = node; }
