@@ -67,8 +67,15 @@ export default function treeFactory (array, start, end) {
 		//Compare previous attributes, left and right to find child/current node.
 		if (previous.getLeft() == current) {
 			if (current.getLeft() != null) {
-				previous.setLeft(current.getLeft());
-				return;
+				if (current.getRight() != null) {
+					previous.setLeft(current.getLeft());
+					previous.getLeft().setRight(current.getRight());
+					return
+				}
+				else {
+					previous.setLeft(current.getLeft());
+					return;
+				}
 			}
 			else {
 				previous.setLeft(null);
@@ -77,8 +84,15 @@ export default function treeFactory (array, start, end) {
 		}
 		else if (previous.getRight() == current){
 			if (current.getRight() != null) {
-				previous.setRight(current.getRight());
-				return;
+				if (current.getLeft() != null) {
+					previous.setRight(current.getRight());
+					previous.getRight().setLeft(current.getLeft());
+					return
+				}
+				else {
+					previous.setLeft(current.getLeft());
+					return;
+				}
 			}
 			else {
 				previous.setRight(null);
