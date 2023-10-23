@@ -1,15 +1,4 @@
-import nodeFactory from './nodefactory.js'
-
-function buildTree (array, start, end) {
-    if (start > end) {return null};
-    const mid = parseInt((start + end)/2);
-    const root = nodeFactory(array[mid]);
-
-    root.setLeft(buildTree(array, start, (mid - 1)));
-    root.setRight(buildTree(array, (mid + 1), end));
-
-    return root;
-}
+import {nodeFactory, buildTree} from './nodefactory.js';
 
 export default function treeFactory (array, start, end) {
     const root = buildTree(array, start, end);
@@ -129,5 +118,9 @@ export default function treeFactory (array, start, end) {
 		return {previous_node, current_node}
 	}
 
-    return {root, prettyPrint, insertNode, deleteNode,findNode};
+	const levelOrder = () => {
+		let array = [];
+	}
+
+    return {root, prettyPrint, insertNode, deleteNode, findNode, levelOrder};
 }
