@@ -54,28 +54,37 @@ export default function treeFactory (array, start, end) {
     }
 
 	const deleteNode = (value) => {
-		let previous_node = nodeFactory(null);
-		let current_node = root;
-        while (true) {
-			if (value == current_node.value) {
-				//Prevent deletion of root node.
-				if (value == root.value) {
-					console.log("You cant delete the root node!");
-					break;
-				};
-
-				//Find current node from previous node by comparing left and right to the current node.
-				if (previous_node.getLeft() == current_node) {
-					previous_node.setLeft(null);
-
-					break;
-				}
-				else if (previous_node.getRight() == current_node){
-					previous_node.setRight(null);
-					break;
-				}
+		const node = findNode(value);
+		const previous = node.previous_node;
+		const current = node.current_node;
+		
+		//Prevent deletion of root node.
+		if (value == root.value) {
+			console.log("You cant delete the root node!");
+			return;
+		};
+		
+		//Compare previous attributes, left and right to find child/current node.
+		if (previous.getLeft() == current) {
+			if (current.getLeft() != null) {
+				previous.setLeft(current.getLeft());
+				return;
 			}
-        }
+			else {
+				previous.setLeft(null);
+				return;
+			}
+		}
+		else if (previous.getRight() == current){
+			if (current.getRight() != null) {
+				previous.setRight(current.getRight());
+				return;
+			}
+			else {
+				previous.setRight(null);
+				return;
+			}
+		}
 	}
 
 	const findNode = (value) => {
@@ -89,7 +98,6 @@ export default function treeFactory (array, start, end) {
 			}
 
 			if (value == current_node.value) {
-				console.log(current_node);
 				break;
 			}
 
@@ -103,7 +111,7 @@ export default function treeFactory (array, start, end) {
 			}
         }
 
-		console.log(previous_node, current_node);
+		console.log(current_node.value);
 		return {previous_node, current_node}
 	}
 
