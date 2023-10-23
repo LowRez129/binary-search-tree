@@ -15,14 +15,14 @@ export default function treeFactory (array, start, end) {
     const root = buildTree(array, start, end);
     const prettyPrint = (node, prefix = "", isLeft = true) => {
         if (node === null) {
-          return;
+			return;
         }
         if (node.getRight() !== null) {
-          prettyPrint(node.getRight(), `${prefix}${isLeft ? "│   " : "    "}`, false);
+			prettyPrint(node.getRight(), `${prefix}${isLeft ? "│   " : "    "}`, false);
         }
         console.log(`${prefix}${isLeft ? "└── " : "┌── "}${node.value}`);
         if (node.getLeft() !== null) {
-          prettyPrint(node.getLeft(), `${prefix}${isLeft ? "    " : "│   "}`, true);
+			prettyPrint(node.getLeft(), `${prefix}${isLeft ? "    " : "│   "}`, true);
         }
     };
 
@@ -31,24 +31,79 @@ export default function treeFactory (array, start, end) {
         let current_node = root;
 
         while (true) {
-          if (NEW_NODE.value == current_node.value) {
-            console.log("This node exist!");
-            break;
-          }
-          if (NEW_NODE.value < current_node.value) {
-            if (null == current_node.getLeft()) { 
-              current_node.setLeft(NEW_NODE);
-              break; }
-            else { current_node = current_node.getLeft(); }
-          }
-          else {
-            if (null == current_node.getRight()) { 
-              current_node.setRight(NEW_NODE);
-              break; }
-            else { current_node = current_node.getRight(); }
-          }
+			if (NEW_NODE.value == current_node.value) {
+				console.log("This node exist!");
+				break;
+			}
+
+			if (NEW_NODE.value < current_node.value) {
+				if (null == current_node.getLeft()) { 
+					current_node.setLeft(NEW_NODE);
+					break; 
+				}
+				else { current_node = current_node.getLeft(); }
+			}
+			else {
+				if (null == current_node.getRight()) { 
+					current_node.setRight(NEW_NODE);
+					break; 
+				}
+				else { current_node = current_node.getRight(); }
+			}
         }
     }
 
-    return {root, prettyPrint, insertNode};
+	const deleteNode = (value) => {
+		let previous_node = nodeFactory(null);
+		let current_node = root;
+        while (true) {
+			if (value == current_node.value) {
+				console.log(previous_node.value, ":", current_node.value);
+				if (previous_node.getLeft() == null) {
+					previous_node.setRight(null);
+					break;
+				}
+				else if (previous_node.getRight() == null) {
+					previous_node.setLeft(null);
+					break;
+				}
+
+				if (previous_node.getLeft().value == value) {
+					previous_node.setLeft(null);
+					break;
+
+				}
+				else {
+					previous_node.setRight(null);
+					break;
+				}
+			}
+			if (value < current_node.value) {
+				previous_node = current_node;
+				current_node = current_node.getLeft();
+			}
+			else {
+				previous_node = current_node;
+				current_node = current_node.getRight();
+			}
+        }
+	}
+
+	const findNode = (value) => {
+		let current_node = root;
+        while (true) {
+			if (value == current_node.value) {
+				console.log(current_node);
+				break;
+			}
+			if (value < current_node.value) {
+				current_node = current_node.getLeft();
+			}
+			else {
+				current_node = current_node.getRight();
+			}
+        }
+	}
+
+    return {root, prettyPrint, insertNode, deleteNode,findNode};
 }
