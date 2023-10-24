@@ -121,20 +121,67 @@ export default function treeFactory (array, start, end) {
 	const levelOrderIteration = (node) => {
 		if (node == null) {return};
 		let array = [];
+		let level_array = [];
 		array.push(node);
 
 		while (array.length != 0) {
 			let current = array[0];
 			if (current.getLeft() != null) {array.push(current.getLeft())};
 			if (current.getRight() != null) {array.push(current.getRight())};
-			console.log(array.shift().value);
+			level_array.push(array.shift().value);
 		}
+
+		console.log(level_array);
+		return level_array;
 	}
 
 	const levelOrderRecursion = (node) => {
 		if (node == null) {return};
-		
+		let node_array = [];
+		//node_array.push(node);
+
+		if (node.getLeft() != null) {node_array.push(node.getLeft())};
+		if (node.getRight() != null) {node_array.push(node.getRight())};
+
+		//node_array.forEach((element) => {console.log(element.value)});
+
+		if (node.getLeft() != null) {levelOrderRecursion(node.getLeft())};
+		if (node.getRight() != null) {levelOrderRecursion(node.getRight())};
 	}
 
-    return {root, prettyPrint, insertNode, deleteNode, findNode, levelOrderIteration, levelOrderRecursion};
+	const depthfirstSearch = () => {
+		const preorder = (node) => {
+			if (node == null) {return};
+			console.log(node.value);
+			preorder(node.getLeft());
+			preorder(node.getRight());
+		}
+
+		const inorder = (node) => {
+			if (node == null) {return};
+			inorder(node.getLeft());
+			console.log(node.value);
+			inorder(node.getRight());
+		}
+
+		const postorder = (node) => {
+			if (node == null) {return};
+			postorder(node.getLeft());
+			postorder(node.getRight());
+			console.log(node.value);
+		}
+
+		return {preorder, inorder, postorder}
+	}
+
+    return {
+		root, 
+		prettyPrint, 
+		insertNode, 
+		deleteNode, 
+		findNode, 
+		levelOrderIteration, 
+		levelOrderRecursion,
+		depthfirstSearch,
+	};
 }
