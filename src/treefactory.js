@@ -118,9 +118,23 @@ export default function treeFactory (array, start, end) {
 		return {previous_node, current_node}
 	}
 
-	const levelOrder = () => {
+	const levelOrderIteration = (node) => {
+		if (node == null) {return};
 		let array = [];
+		array.push(node);
+
+		while (array.length != 0) {
+			let current = array[0];
+			if (current.getLeft() != null) {array.push(current.getLeft())};
+			if (current.getRight() != null) {array.push(current.getRight())};
+			console.log(array.shift().value);
+		}
 	}
 
-    return {root, prettyPrint, insertNode, deleteNode, findNode, levelOrder};
+	const levelOrderRecursion = (node) => {
+		if (node == null) {return};
+		
+	}
+
+    return {root, prettyPrint, insertNode, deleteNode, findNode, levelOrderIteration, levelOrderRecursion};
 }

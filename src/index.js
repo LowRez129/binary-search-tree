@@ -8,4 +8,5 @@ TREE.insertNode(8);
 TREE.prettyPrint(TREE.root)
 TREE.deleteNode(2);
 TREE.prettyPrint(TREE.root);
+TREE.levelOrderRecursion(TREE.root);
 //TREE.findNode(4);
