@@ -171,7 +171,21 @@ export default function treeFactory (array, start, end) {
 			console.log(node.value);
 		}
 
-		return {preorder, inorder, postorder}
+		const getHeight = (node) => {
+			let height = 0;
+			const heightMeasure = (node) => {
+				if (node == null) {return};
+				console.log(height)
+				heightMeasure(node.getLeft());
+				height += 1;
+				heightMeasure(node.getRight());
+				height -= 1;
+			}
+
+			heightMeasure(node);
+		}
+
+		return {preorder, inorder, postorder, getHeight}
 	}
 
     return {
