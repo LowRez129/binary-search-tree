@@ -1,3 +1,4 @@
+import { max } from 'lodash';
 import {nodeFactory, buildTree} from './nodefactory.js';
 
 export default function treeFactory (array, start, end) {
@@ -173,19 +174,46 @@ export default function treeFactory (array, start, end) {
 
 		const getHeight = (node) => {
 			let height = 0;
+			let max = 0;
 			const heightMeasure = (node) => {
-				if (node == null) {return};
-				console.log(height)
-				heightMeasure(node.getLeft());
+				if (node == null) {
+					if (height > max) {
+						max = height;
+						return;
+					}
+
+					return;
+				};
+				
 				height += 1;
+				heightMeasure(node.getLeft());		
 				heightMeasure(node.getRight());
 				height -= 1;
 			}
 
 			heightMeasure(node);
+			console.log(max - 1)
+			return max;
 		}
 
-		return {preorder, inorder, postorder, getHeight}
+		const getDepth = (node, value) => {
+			let depth = 0;
+
+			const depthMeasure = (node, value) => {
+				if (node == null) {return};
+				if (node.value == value) {return console.log(depth)};
+				
+				depth += 1;
+				depthMeasure(node.getLeft(), value);		
+				depthMeasure(node.getRight(), value);
+				depth -= 1;
+			}
+
+			depthMeasure(node, value);
+			getHeight(node);
+		}
+
+		return {preorder, inorder, postorder, getHeight, getDepth}
 	}
 
     return {
