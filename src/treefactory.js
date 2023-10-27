@@ -1,5 +1,9 @@
 import { max } from 'lodash';
 import {nodeFactory, buildTree} from './nodefactory.js';
+import {levelOrder} from './levelorder.js';
+import {depthfirstSearch} from './depthfirshsearch.js';
+import {getHeightOrDepth} from './getheightordepth.js';
+import {isBalancedAndRebalance} from './isbalancedandrebalance.js';
 
 export default function treeFactory (array, start, end) {
     const root = buildTree(array, start, end);
@@ -119,128 +123,15 @@ export default function treeFactory (array, start, end) {
 		return {previous_node, current_node}
 	}
 
-	const levelOrderIteration = (node) => {
-		if (node == null) {return};
-		let array = [];
-		let level_array = [];
-		array.push(node);
-
-		while (array.length != 0) {
-			let current = array[0];
-			if (current.getLeft() != null) {array.push(current.getLeft())};
-			if (current.getRight() != null) {array.push(current.getRight())};
-			level_array.push(array.shift().value);
-		}
-
-		console.log(level_array);
-		return level_array;
-	}
-
-	const levelOrderRecursion = (node) => {
-		if (node == null) {return};
-		let node_array = [];
-		node_array.push(node);
-
-		function recurse (node) {
-			if (node == null) {return};
-			//node_array.push(node);
-
-			if (node.getLeft() != null) {node_array.push(node.getLeft())};
-			if (node.getRight() != null) {node_array.push(node.getRight())};
-
-			if (node.getLeft() != null) {recurse(node.getLeft())};
-			if (node.getRight() != null) {recurse(node.getRight())};
-		}
-
-		recurse(node);
-		node_array.forEach((element) => {console.log(element.value)});
-	}
-
-	const depthfirstSearch = () => {
-		const preorder = (node) => {
-			if (node == null) {return};
-			console.log(node.value);
-			preorder(node.getLeft());
-			preorder(node.getRight());
-		}
-
-		const inorder = (node) => {
-			if (node == null) {return};
-			inorder(node.getLeft());
-			console.log(node.value);
-			inorder(node.getRight());
-		}
-
-		const postorder = (node) => {
-			if (node == null) {return};
-			postorder(node.getLeft());
-			postorder(node.getRight());
-			console.log(node.value);
-		}
-
-		const getHeight = (node) => {
-			function heightCalculate (node) {
-				if (node == null) {return -1};
-				return Math.max(heightCalculate(node.getLeft()), heightCalculate(node.getRight())) + 1;
-			}
-
-			const HEIGHT = heightCalculate(node);
-			console.log(HEIGHT);
-			return HEIGHT;
-		}
-
-		const getDepth = (node, value) => {
-			let depth = 0;
-			let height = getHeight(node);
-
-			const depthMeasure = (node, value) => {
-				if (node == null) {return};
-				if (node.value == value) {
-					return console.log(`Depth: ${depth}`, `Height: ${height - depth}`);
-				};
-				
-				depth += 1;
-				depthMeasure(node.getLeft(), value);
-				depthMeasure(node.getRight(), value);
-				depth -= 1;
-			}
-
-			depthMeasure(node, value);
-			return depth;
-		}
-
-		const isBalanced = (node) => {
-			const checkTree = (node) => {
-				if (node == null) {return 0};
-
-				const left = checkTree(node.getLeft());
-				if (left == -1) {return -1}
-
-				const right = checkTree(node.getRight())
-				if (right == -1) {return -1}
-
-				if (Math.abs(left - right) > 1) {return -1}
-				return (Math.max(left, right) + 1);
-			}
-
-			const HEIGHT = checkTree(node);
-			if (checkTree(node) == -1) {return console.log("Not Balanced")};
-
-			console.log(HEIGHT - 1);
-			return HEIGHT - 1;
-		}
-
-		return {preorder, inorder, postorder, getHeight, getDepth, isBalanced};
-	}
-
     return {
 		root, 
 		prettyPrint, 
 		insertNode, 
 		deleteNode, 
 		findNode, 
-		levelOrderIteration, 
-		levelOrderRecursion,
+		levelOrder,
 		depthfirstSearch,
+		getHeightOrDepth,
+		isBalancedAndRebalance
 	};
 }
