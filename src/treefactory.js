@@ -173,47 +173,58 @@ export default function treeFactory (array, start, end) {
 		}
 
 		const getHeight = (node) => {
-			let height = 0;
-			let max = 0;
-			const heightMeasure = (node) => {
-				if (node == null) {
-					if (height > max) {
-						max = height;
-						return;
-					}
-
-					return;
-				};
-				
-				height += 1;
-				heightMeasure(node.getLeft());		
-				heightMeasure(node.getRight());
-				height -= 1;
+			function heightCalculate (node) {
+				if (node == null) {return -1};
+				return Math.max(heightCalculate(node.getLeft()), heightCalculate(node.getRight())) + 1;
 			}
 
-			heightMeasure(node);
-			console.log(max - 1)
-			return max;
+			const HEIGHT = heightCalculate(node);
+			console.log(HEIGHT);
+			return HEIGHT;
 		}
 
 		const getDepth = (node, value) => {
 			let depth = 0;
+			let height = getHeight(node);
 
 			const depthMeasure = (node, value) => {
 				if (node == null) {return};
-				if (node.value == value) {return console.log(depth)};
+				if (node.value == value) {
+					return console.log(`Depth: ${depth}`, `Height: ${height - depth}`);
+				};
 				
 				depth += 1;
-				depthMeasure(node.getLeft(), value);		
+				depthMeasure(node.getLeft(), value);
 				depthMeasure(node.getRight(), value);
 				depth -= 1;
 			}
 
 			depthMeasure(node, value);
-			getHeight(node);
+			return depth;
 		}
 
-		return {preorder, inorder, postorder, getHeight, getDepth}
+		const isBalanced = (node) => {
+			const checkTree = (node) => {
+				if (node == null) {return 0};
+
+				const left = checkTree(node.getLeft());
+				if (left == -1) {return -1}
+
+				const right = checkTree(node.getRight())
+				if (right == -1) {return -1}
+
+				if (Math.abs(left - right) > 1) {return -1}
+				return (Math.max(left, right) + 1);
+			}
+
+			const HEIGHT = checkTree(node);
+			if (checkTree(node) == -1) {return console.log("Not Balanced")};
+
+			console.log(HEIGHT - 1);
+			return HEIGHT - 1;
+		}
+
+		return {preorder, inorder, postorder, getHeight, getDepth, isBalanced};
 	}
 
     return {
