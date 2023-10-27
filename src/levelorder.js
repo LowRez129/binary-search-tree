@@ -1,3 +1,5 @@
+import { noConflict } from "lodash";
+
 export const levelOrder = () => {
     const levelOrderIteration = (node) => {
 		if (node == null) {return};
@@ -19,21 +21,22 @@ export const levelOrder = () => {
 	const levelOrderRecursion = (node) => {
 		if (node == null) {return};
 		let node_array = [];
-		node_array.push(node);
+		node_array.push(node.value);
 
 		function recurse (node) {
 			if (node == null) {return};
 			//node_array.push(node);
 
-			if (node.getLeft() != null) {node_array.push(node.getLeft())};
-			if (node.getRight() != null) {node_array.push(node.getRight())};
+			if (node.getLeft() != null) {node_array.push(node.getLeft().value)};
+			if (node.getRight() != null) {node_array.push(node.getRight().value)};
 
 			if (node.getLeft() != null) {recurse(node.getLeft())};
 			if (node.getRight() != null) {recurse(node.getRight())};
 		}
 
 		recurse(node);
-		node_array.forEach((element) => {console.log(element.value)});
+		console.log(node_array);
+		return node_array;
 	}
 
     return {levelOrderIteration, levelOrderRecursion};

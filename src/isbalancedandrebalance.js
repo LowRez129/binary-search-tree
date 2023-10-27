@@ -1,3 +1,6 @@
+import {levelOrder} from './levelorder.js';
+import treeFactory from './treefactory.js';
+
 export const isBalancedAndRebalance = () => {
     const isBalanced = (node) => {
 
@@ -21,8 +24,10 @@ export const isBalancedAndRebalance = () => {
         return HEIGHT - 1;
     }
     
-    const reBalance = () => {
-        
+    const reBalance = (node) => {
+        const node_array = levelOrder().levelOrderRecursion(node);
+        const rebalanced_tree = treeFactory(node_array, 0, node_array.length - 1);
+        return rebalanced_tree;
     }
 
     return {isBalanced, reBalance}
