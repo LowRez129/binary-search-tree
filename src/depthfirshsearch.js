@@ -1,8 +1,6 @@
-import {buildTree} from './nodefactory.js';
-
 export const depthfirstSearch = () => {
     const preorder = (node) => {
-        if (node == null) {return};
+        if (node == null) {return};     
         console.log(node.value);
         preorder(node.getLeft());
         preorder(node.getRight());

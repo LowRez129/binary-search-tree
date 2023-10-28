@@ -3,10 +3,10 @@ import {nodeFactory, buildTree} from './nodefactory.js';
 import {levelOrder} from './levelorder.js';
 import {depthfirstSearch} from './depthfirshsearch.js';
 import {getHeightOrDepth} from './getheightordepth.js';
-import {isBalancedAndRebalance} from './isbalancedandrebalance.js';
+import {isBalanced, reBalance} from './isbalancedandrebalance.js';
 
 export default function treeFactory (array, start, end) {
-    const root = buildTree(array, start, end);
+    let root = buildTree(array, start, end);
     const prettyPrint = (node, prefix = "", isLeft = true) => {
         if (node === null) {
 			return;
@@ -123,8 +123,19 @@ export default function treeFactory (array, start, end) {
 		return {previous_node, current_node}
 	}
 
+	const checkIfBalanced = () => {
+		//console.log();
+		isBalanced(root);
+	};
+
+	const treeRebalance = () => {
+		return root = reBalance(root);
+	}
+
+	const getRoot = () => {return root};
+
     return {
-		root, 
+		getRoot, 
 		prettyPrint, 
 		insertNode, 
 		deleteNode, 
@@ -132,6 +143,7 @@ export default function treeFactory (array, start, end) {
 		levelOrder,
 		depthfirstSearch,
 		getHeightOrDepth,
-		isBalancedAndRebalance
+		checkIfBalanced,
+		treeRebalance,
 	};
 }
